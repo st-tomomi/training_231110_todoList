@@ -7,7 +7,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/tomomisato/Downloads/mysql-connector-j-8.2.0/mysql-connector-j-8.2.0.jar">
+	<classpathentry kind="lib" path="/Users/tomomisato/Downloads/mariadb-java-client-3.2.0-sources.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

@@ -16,6 +16,12 @@ String msg = (String) request.getAttribute("msg");
 </head>
 <body>
 	<h1>To-Do List</h1>
+	<!-- deadlineに -->
+	<form action="insert-servlet" method="post">
+		<label>Task:</label><input type="text" name="title"><br>
+		<label>Due Date:</label><input type="date" name="deadline"><br>
+		<input type="submit" value="add">
+	</form>
 	<% if (msg != null) { %>
 		<p><%= msg %></p>
 	<% } %>

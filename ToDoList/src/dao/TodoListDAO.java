@@ -36,8 +36,11 @@ public class TodoListDAO {
 				int id = res.getInt("id");
 				String title = res.getString("title");
 				Date deadline = res.getDate("deadline");
-				String memoText = res.getString("memotext");
-				int status = res.getInt("status");
+//				String memoText = res.getString("memotext");
+//				int status = res.getInt("status");
+
+				String memoText = "";
+				int status = 0;
 
 				todoList.add(new Todo(id, title, deadline, memoText, status));
 			}
