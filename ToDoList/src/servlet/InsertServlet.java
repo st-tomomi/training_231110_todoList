@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import constant.Parameters;
 import dao.TodoInsertDAO;
 
 /**
@@ -42,13 +43,13 @@ public class InsertServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		String title = (String) request.getParameter("title");
+		String title = (String) request.getParameter(Parameters.TITLE);
 		//リクエストパラメータではString型になっているのでDateへ変換
-		Date deadline = Date.valueOf(request.getParameter("deadline"));
+		Date duedate = Date.valueOf(request.getParameter(Parameters.DUEDATE));
 
 		TodoInsertDAO dao = new TodoInsertDAO();
 		try {
-			dao.insertTodo(title, deadline, "", 0);
+			dao.insertTodo(title, duedate, "", 0);
 		} catch(SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}

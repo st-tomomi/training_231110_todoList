@@ -14,7 +14,7 @@ public class Todo {
 	//タイトル
 	private String title;
 	//期限
-	private Date deadline;
+	private Date duedate;
 
 	//ここより下は余力があれば
 	//メモ
@@ -28,22 +28,22 @@ public class Todo {
 	public Todo() {
 		setId(0);
 		setTitle("");
-		setDeadline(new Date(System.currentTimeMillis()));
+		setDuedate(new Date(System.currentTimeMillis()));
 	}
 
 
-	public Todo(int id, String title, Date deadline) {
+	public Todo(int id, String title, Date duedate) {
 		this.setId(id);
 		this.setTitle(title);
-		this.setDeadline(deadline);
+		this.setDuedate(duedate);
 		this.setMemoText("");
 		this.setStatus(0);
 	}
 
-	public Todo( int id, String title, Date deadline, String memoText, int status) {
+	public Todo( int id, String title, Date duedate, String memoText, int status) {
 		this.setId(id);
 		this.setTitle(title);
-		this.setDeadline(deadline);
+		this.setDuedate(duedate);
 		this.setMemoText(memoText);
 		this.setStatus(status);
 	}
@@ -69,13 +69,13 @@ public class Todo {
 	}
 
 
-	public Date getDeadline() {
-		return deadline;
+	public Date getDuedate() {
+		return duedate;
 	}
 
 
-	public void setDeadline(Date deadline) {
-		this.deadline = deadline;
+	public void setDuedate(Date duedate) {
+		this.duedate = duedate;
 	}
 
 

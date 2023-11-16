@@ -23,7 +23,7 @@ public class TodoListDAO {
 		//返却用List
 		List<Todo> todoList = new ArrayList<>();
 		//SQL
-		String sql = "SELECT id, title, deadline FROM TODO";
+		String sql = "SELECT id, title, duedate FROM TODO";
 
 		//DBに接続
 		try (Connection con = DBConnection.getConnection();
@@ -35,14 +35,14 @@ public class TodoListDAO {
 			while (res.next()) {
 				int id = res.getInt("id");
 				String title = res.getString("title");
-				Date deadline = res.getDate("deadline");
+				Date duedate = res.getDate("duedate");
 //				String memoText = res.getString("memotext");
 //				int status = res.getInt("status");
 
 				String memoText = "";
 				int status = 0;
 
-				todoList.add(new Todo(id, title, deadline, memoText, status));
+				todoList.add(new Todo(id, title, duedate, memoText, status));
 			}
 		}
 
