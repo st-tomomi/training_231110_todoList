@@ -32,13 +32,13 @@ public class UpdateServlet extends HttpServlet {
     }
 
 	/**
-	 * リクエストパラメータの"id"を条件にテーブルを検索
+	 * リクエストパラメータの"id"を条件にテーブル内を検索
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//不具合調査用
 		Logger.getLogger(UpdateServlet.class.getName()).info("id : " + request.getParameter(Parameters.TODO_ID));
-		//リクエストパラメータからIDを取得
+		//リクエストパラメータからTodoのIDを取得
 		int id = Integer.parseInt(request.getParameter(Parameters.TODO_ID));
 
 		UpdateDAO dao = new UpdateDAO();

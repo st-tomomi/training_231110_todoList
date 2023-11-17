@@ -28,7 +28,7 @@ String msg = (String) request.getAttribute("msg");
                return true;
             }
         }
-    </script>
+</script>
 </head>
 <body>
 	<h1>To-Do List</h1>
@@ -44,6 +44,7 @@ String msg = (String) request.getAttribute("msg");
 	<h5><%=todo.getTitle() %></h5>
 	<h6><%=todo.getDuedate() %></h6>
 	<a href="update-servlet?<%=Parameters.TODO_ID %>=<%=todo.getId() %>">Edit</a>
+	<a href="delete-servlet?<%=Parameters.TODO_ID %>=<%= todo.getId() %>">Delete</a>
 	<% } %>
 </body>
 </html>

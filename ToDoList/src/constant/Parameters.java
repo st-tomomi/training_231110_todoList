@@ -14,4 +14,9 @@ public class Parameters {
 	//Todoの期限
 	public static final String DUEDATE = "duedate";
 
+	//ログインid
+	public static final String LOGIN_ID = "loginId";
+	//パスワード
+	public static final String LOGIN_PASSWORD = "lodinPassword";
+
 }

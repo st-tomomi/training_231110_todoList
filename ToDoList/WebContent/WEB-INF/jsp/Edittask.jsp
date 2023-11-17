@@ -10,13 +10,29 @@ Todo todo = (Todo) request.getAttribute("todo");
 <head>
 <meta charset="UTF-8">
 <title>Edit</title>
+<script>
+        function validateForm() {
+            // 入力欄の値を取得
+            var input1 = document.getElementById("inputTitle").value;
+            var input2 = document.getElementById("inputDate").value;
+
+            // 全ての入力欄が埋まっているか検証
+            if (input1 === '' || input2 === '') {
+                // 入力欄が一つでも空の場合は警告を出す
+                alert("Please fill in all fields.");
+                return false;
+            } else {
+               return true;
+            }
+        }
+</script>
 </head>
 <body>
-<form action="update-servlet" method="post" >
-	<label>Title : </label>
-	<input type="text" name="<%=Parameters.TITLE %>" value="<%=todo.getTitle() %>"><br>
+<form action="update-servlet" method="post" onsubmit="return validateForm()">
+	<label>Task : </label>
+	<input type="text" id="inputTitle" name="<%=Parameters.TITLE %>" value="<%=todo.getTitle() %>"><br>
 	<label>Due Date : </label>
-	<input type="date" name="<%=Parameters.DUEDATE %>" value="<%=todo.getDuedate() %>">
+	<input type="date" id= "inputDate" name="<%=Parameters.DUEDATE %>" value="<%=todo.getDuedate() %>"><br>
 	<input type="hidden" name="<%=Parameters.TODO_ID %>" value="<%=todo.getId() %>">
 	<input type="submit" value="Submit">
 </form>
