@@ -28,7 +28,23 @@ String msg = (String) request.getAttribute("msg");
                return true;
             }
         }
+
+        function confirmDelete(paramName, paramValue) {
+        	var confirmDelete = confirm("Delete this task? You cannot undo this action.");
+        	if (confirmDelete) {
+        		window.location.href = "delete-servlet?" + paramName + "=" +paramValue;
+        	}
+        }
 </script>
+<style type="text/css">
+	td.center-align, th.center-align {
+            text-align: center;
+    }
+
+    td.padding, th.padding {
+            padding: 0px 8px;
+    }
+</style>
 </head>
 <body>
 	<h1>To-Do List</h1>
@@ -40,11 +56,26 @@ String msg = (String) request.getAttribute("msg");
 	<% if (msg != null) { %>
 		<p><%= msg %></p>
 	<% } %>
-	<%for(Todo todo : todoList) { %>
-	<h5><%=todo.getTitle() %></h5>
-	<h6><%=todo.getDuedate() %></h6>
-	<a href="update-servlet?<%=Parameters.TODO_ID %>=<%=todo.getId() %>">Edit</a>
-	<a href="delete-servlet?<%=Parameters.TODO_ID %>=<%= todo.getId() %>">Delete</a>
-	<% } %>
+	<table border="1">
+	<thead>
+        <tr>
+            <th>Title</th>
+            <th class="padding">Due Date</th>
+            <th class="center-align"></th>
+            <th class="center-align"></th>
+        </tr>
+    </thead>
+	<tbody>
+	<% for (Todo todo : todoList) { %>
+            <tr>
+                <td><%= todo.getTitle() %></td>
+                <td class="padding"><%= todo.getDuedate() %></td>
+                <td class="center-align padding"><a href="update-servlet?<%= Parameters.TODO_ID %>=<%= todo.getId() %>">Edit</a></td>
+                <td class="center-align padding"><a href="#" onclick="confirmDelete('<%= Parameters.TODO_ID %>' , '<%= todo.getId() %>')">Delete</a></td>
+                <!-- <td class="center-align"><a href="delete-servlet?<%= Parameters.TODO_ID %>=<%= todo.getId() %>">Delete</a></td> -->
+            </tr>
+        <% } %>
+	</tbody>
+	</table>
 </body>
 </html>

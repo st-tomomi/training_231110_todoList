@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="model.Todo, constant.Parameters" %>
+<%@ page import="model.Todo, java.util.List, java.util.ArrayList,  constant.Parameters" %>
 <%
 //Todo取得
 Todo todo = (Todo) request.getAttribute("todo");
+List<Todo> todoList =
+(List<Todo>) request.getAttribute("todoList");
 %>
 <!DOCTYPE html>
 <html>
@@ -25,6 +27,14 @@ Todo todo = (Todo) request.getAttribute("todo");
                return true;
             }
         }
+
+        function confirmGoBack() {
+        	var confirmBack = confirm("The changes will be discarded. Do you want to proceed with the return?");
+        	if (confirmBack) {
+                // 確認した場合は一覧画面に戻る
+                history.back();
+            }
+        }
 </script>
 </head>
 <body>
@@ -36,5 +46,6 @@ Todo todo = (Todo) request.getAttribute("todo");
 	<input type="hidden" name="<%=Parameters.TODO_ID %>" value="<%=todo.getId() %>">
 	<input type="submit" value="Submit">
 </form>
+<button onclick="confirmGoBack()">Go Back</button>
 </body>
 </html>
