@@ -64,11 +64,21 @@ public class UpdateServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter(Parameters.TODO_ID));
 		String title = request.getParameter(Parameters.TITLE);
 		Date duedate = Date.valueOf(request.getParameter(Parameters.DUEDATE));
+		Date completiondate = null;
+		int status = 0;
+
+		if(request.getParameter(Parameters.COMPDATE) != null) {
+			Date.valueOf(request.getParameter(Parameters.COMPDATE));
+		}
+
+		if(request.getParameter(Parameters.STATUS) != null) {
+			status = Integer.parseInt(request.getParameter(Parameters.STATUS));
+		}
 
 		//Todo更新
 		UpdateDAO dao = new UpdateDAO();
 		try {
-			dao.updateTodo(id, title, duedate);
+			dao.updateTodo(id, title, duedate, completiondate, status);
 		} catch(SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}

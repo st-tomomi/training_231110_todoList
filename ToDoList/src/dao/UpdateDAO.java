@@ -16,18 +16,20 @@ import model.Todo;
  */
 public class UpdateDAO {
 
-	public int updateTodo(int id, String title, Date duedate)
+	public int updateTodo(int id, String title, Date duedate, Date completiondate, int status)
 		throws SQLException, ClassNotFoundException {
 
 		int rowsUpdated = 0;
 
-		String sql = "UPDATE todo SET title = ?, duedate = ? WHERE id = ?";
+		String sql = "UPDATE todo SET title = ?, duedate = ?, completiondate = ?, status = ? WHERE id = ?";
 
 		try(Connection con = DBConnection.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)) {
 			pstmt.setString(1, title);
 			pstmt.setDate(2, duedate);
-			pstmt.setInt(3, id);
+			pstmt.setDate(3, completiondate);
+			pstmt.setInt(4, status);
+			pstmt.setInt(5, id);
 			rowsUpdated = pstmt.executeUpdate();
 		}
 
@@ -55,10 +57,11 @@ public class UpdateDAO {
 					todo.setId(res.getInt("id"));
 					todo.setTitle(res.getString("title"));
 					todo.setDuedate(res.getDate("duedate"));
+					todo.setCompletiondate(res.getDate("completiondate"));
 
 					//改修案
 //					todo.setMemoText(res.getString("memoText"));
-//					todo.setStatus(res.getInt("status"));
+					todo.setStatus(res.getInt("status"));
 				}
 		}
 		return todo;

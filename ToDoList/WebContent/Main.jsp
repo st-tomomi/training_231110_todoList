@@ -61,6 +61,8 @@ String msg = (String) request.getAttribute("msg");
         <tr>
             <th>Title</th>
             <th class="padding">Due Date</th>
+            <th class="padding">Comp. Date</th>
+            <th class="padding">Done</th>
             <th class="center-align"></th>
             <th class="center-align"></th>
         </tr>
@@ -70,6 +72,8 @@ String msg = (String) request.getAttribute("msg");
             <tr>
                 <td><%= todo.getTitle() %></td>
                 <td class="padding"><%= todo.getDuedate() %></td>
+                <td class="padding"><%= todo.getCompletiondate() %></td>
+                <td class="padding"><%= todo.getStatus() %></td>
                 <td class="center-align padding"><a href="update-servlet?<%= Parameters.TODO_ID %>=<%= todo.getId() %>">Edit</a></td>
                 <td class="center-align padding"><a href="#" onclick="confirmDelete('<%= Parameters.TODO_ID %>' , '<%= todo.getId() %>')">Delete</a></td>
                 <!-- <td class="center-align"><a href="delete-servlet?<%= Parameters.TODO_ID %>=<%= todo.getId() %>">Delete</a></td> -->

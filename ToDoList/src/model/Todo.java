@@ -15,8 +15,8 @@ public class Todo {
 	private String title;
 	//期限
 	private Date duedate;
-
-	//ここより下は余力があれば
+	//完了日
+	private Date completiondate;
 	//メモ
 	private String memoText;
 	//状態(0:not done 1:done)
@@ -32,18 +32,19 @@ public class Todo {
 	}
 
 
-	public Todo(int id, String title, Date duedate) {
-		this.setId(id);
-		this.setTitle(title);
-		this.setDuedate(duedate);
-		this.setMemoText("");
-		this.setStatus(0);
-	}
+//	public Todo(int id, String title, Date duedate) {
+//		this.setId(id);
+//		this.setTitle(title);
+//		this.setDuedate(duedate);
+//		this.setMemoText("");
+//		this.setStatus(0);
+//	}
 
-	public Todo( int id, String title, Date duedate, String memoText, int status) {
+	public Todo( int id, String title, Date duedate, Date completiondate, String memoText, int status) {
 		this.setId(id);
 		this.setTitle(title);
 		this.setDuedate(duedate);
+		this.setCompletiondate(completiondate);
 		this.setMemoText(memoText);
 		this.setStatus(status);
 	}
@@ -96,6 +97,16 @@ public class Todo {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+
+	public Date getCompletiondate() {
+		return completiondate;
+	}
+
+
+	public void setCompletiondate(Date completiondate) {
+		this.completiondate = completiondate;
 	}
 
 }

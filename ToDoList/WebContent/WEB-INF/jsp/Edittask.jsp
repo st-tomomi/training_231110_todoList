@@ -4,8 +4,6 @@
 <%
 //Todo取得
 Todo todo = (Todo) request.getAttribute("todo");
-List<Todo> todoList =
-(List<Todo>) request.getAttribute("todoList");
 %>
 <!DOCTYPE html>
 <html>
@@ -43,6 +41,8 @@ List<Todo> todoList =
 	<input type="text" id="inputTitle" name="<%=Parameters.TITLE %>" value="<%=todo.getTitle() %>"><br>
 	<label>Due Date : </label>
 	<input type="date" id= "inputDate" name="<%=Parameters.DUEDATE %>" value="<%=todo.getDuedate() %>"><br>
+	<label>Done : </label>
+	<input type="checkbox" name="<%=Parameters.STATUS %>" value="<%=todo.getStatus() %>"><br>
 	<input type="hidden" name="<%=Parameters.TODO_ID %>" value="<%=todo.getId() %>">
 	<input type="submit" value="Submit">
 </form>
