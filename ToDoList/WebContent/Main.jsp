@@ -59,9 +59,9 @@ String msg = (String) request.getAttribute("msg");
             }
         }
 		//checkbox変更時の処理
-		function sendCheckboxState(checkboxId, id) {
-			var checkbox = document.getElementById(checkboxId);
-			var isChecked = checkbox.checked;
+		function sendCheckboxState(id) {
+			var checkbox = document.getElementById('checkbox' + id);
+			var status = (checkbox.checked) ? "1" : "0";
 
 			var xhr = new XMLHttpRequest();
             xhr.open('POST', 'update-servlet', true);
@@ -71,12 +71,12 @@ String msg = (String) request.getAttribute("msg");
                     console.log(xhr.responseText);
                 }
             };
-            xhr.send('isChecked=' + isChecked + '&id=' + id);
+            xhr.send('isChecked=' + status + '&id=' + id);
 		}
       //最初の画面読み込み時に実行
         window.onload = function() {
             filterTodos('all');
-        };
+        }
 
 </script>
 <style type="text/css">
@@ -123,7 +123,7 @@ String msg = (String) request.getAttribute("msg");
                 	<input type="checkbox"
                 		name="statusCheckbox"
                 		id="checkbox<%= todo.getId() %>"
-                		onchange="sendCheckboxState('checkbox<%= todo.getId() %>', todo.getId())"
+                		onchange="sendCheckboxState('<%= todo.getId() %>')"
                 		value="on" <%= (todo.getStatus() == 1) ? "checked" : "" %>
                 	>
                 </td>

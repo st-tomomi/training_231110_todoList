@@ -8,7 +8,7 @@ public class MyUtil {
 	}
 	//チェックボックスがONのとき1を設定する
 	public static int getChackBoxStatus(String value) {
-		return (value != null) ? 1 : 0;
+		return (value == null || value.equals("0")) ? 0 : 1;
 	}
 
 }

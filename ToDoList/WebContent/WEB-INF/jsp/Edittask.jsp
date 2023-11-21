@@ -25,7 +25,7 @@ Todo todo = (Todo) request.getAttribute("todo");
                return true;
             }
         }
-		//戻るボタン押下でダイアログ表示
+		//戻る確認ダイアログ
         function confirmGoBack() {
         	var confirmBack = confirm("The changes will be discarded. Do you want to proceed with the return?");
         	if (confirmBack) {

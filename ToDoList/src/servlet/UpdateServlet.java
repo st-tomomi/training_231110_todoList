@@ -63,16 +63,14 @@ public class UpdateServlet extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 		int id = Integer.parseInt(request.getParameter(Parameters.TODO_ID));
-		String title = request.getParameter(Parameters.TITLE);
-		Date duedate = Date.valueOf(request.getParameter(Parameters.DUEDATE));
-		String completiondateString = request.getParameter(Parameters.COMPDATE);
-		Date completiondate = null;
-		int status = MyUtil.getChackBoxStatus(request.getParameter(Parameters.STATUS));
+		String isChecked = request.getParameter("isChecked");
+		int status = 0;
 
-		//【至急】nullチェックして
+		Logger.getLogger(UpdateServlet.class.getName()).info("id : " + request.getParameter(Parameters.TODO_ID));
 		Logger.getLogger(UpdateServlet.class.getName()).info("isChecked : " + request.getParameter("isChecked"));
-		if (!StringUtils.isNullOrEmpty(request.getParameter("isChecked"))) {
-			status = 1;
+
+		if (!StringUtils.isNullOrEmpty(isChecked)) {
+			status = MyUtil.getChackBoxStatus(isChecked);
 			UpdateDAO dao = new UpdateDAO();
 			try {
 				dao.updateTodo(id, status);
@@ -81,6 +79,12 @@ public class UpdateServlet extends HttpServlet {
 			}
 			response.sendRedirect("list-servlet");
 		}
+
+		String title = request.getParameter(Parameters.TITLE);
+		Date duedate = Date.valueOf(request.getParameter(Parameters.DUEDATE));
+		String completiondateString = request.getParameter(Parameters.COMPDATE);
+		Date completiondate = null;
+		status = MyUtil.getChackBoxStatus(request.getParameter(Parameters.STATUS));
 
 		//不具合調査用
 		Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : " + completiondateString);
