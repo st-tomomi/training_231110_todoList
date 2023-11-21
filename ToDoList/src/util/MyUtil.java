@@ -6,11 +6,9 @@ public class MyUtil {
 	public static String getValueOrDefault(String value, String defaultValue) {
 		return (value != null) ? value : defaultValue;
 	}
-	//nullのときデフォルト値を代入する
-	public static int getValueOrDefault(int value, int defaultValue) {
-        return (value != 0) ? value : defaultValue;
-    }
-
-	//
+	//チェックボックスがONのとき1を設定する
+	public static int getChackBoxStatus(String value) {
+		return (value != null) ? 1 : 0;
+	}
 
 }

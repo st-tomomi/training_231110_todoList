@@ -49,14 +49,12 @@ public class InsertServlet extends HttpServlet {
 		Date duedate = Date.valueOf(request.getParameter(Parameters.DUEDATE));
 		Date completiondate = null;
 		String memoText = (String) MyUtil.getValueOrDefault(request.getParameter(Parameters.MEMO), "");
-		int status = 0;
 
 		if(request.getParameter(Parameters.COMPDATE) != null) {
 			completiondate = Date.valueOf(request.getParameter(Parameters.COMPDATE));
 		}
-		if(request.getParameter(Parameters.STATUS) != null) {
-			status = Integer.parseInt(request.getParameter(Parameters.STATUS));
-		}
+
+		int status = MyUtil.getChackBoxStatus(request.getParameter(Parameters.STATUS));
 
 		TodoInsertDAO dao = new TodoInsertDAO();
 		try {

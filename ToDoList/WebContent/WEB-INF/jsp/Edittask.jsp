@@ -37,12 +37,14 @@ Todo todo = (Todo) request.getAttribute("todo");
 </head>
 <body>
 <form action="update-servlet" method="post" onsubmit="return validateForm()">
+	<% int status = todo.getStatus(); %>
 	<label>Task : </label>
 	<input type="text" id="inputTitle" name="<%=Parameters.TITLE %>" value="<%=todo.getTitle() %>"><br>
 	<label>Due Date : </label>
 	<input type="date" id= "inputDate" name="<%=Parameters.DUEDATE %>" value="<%=todo.getDuedate() %>"><br>
 	<label>Done : </label>
-	<input type="checkbox" name="<%=Parameters.STATUS %>" value="<%=todo.getStatus() %>"><br>
+	<input type="checkbox" name="<%=Parameters.STATUS %>" value="on" <%= (status == 1) ? "checked" : "" %>>
+	<br>
 	<input type="hidden" name="<%=Parameters.TODO_ID %>" value="<%=todo.getId() %>">
 	<input type="submit" value="Submit">
 </form>

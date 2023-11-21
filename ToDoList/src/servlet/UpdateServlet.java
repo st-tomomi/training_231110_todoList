@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import constant.Parameters;
 import dao.UpdateDAO;
 import model.Todo;
+import util.MyUtil;
 
 /**
  * Servlet implementation class UpdateServlet
@@ -36,8 +37,6 @@ public class UpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//不具合調査用
-		Logger.getLogger(UpdateServlet.class.getName()).info("id : " + request.getParameter(Parameters.TODO_ID));
 		//リクエストパラメータからTodoのIDを取得
 		int id = Integer.parseInt(request.getParameter(Parameters.TODO_ID));
 
@@ -65,15 +64,19 @@ public class UpdateServlet extends HttpServlet {
 		String title = request.getParameter(Parameters.TITLE);
 		Date duedate = Date.valueOf(request.getParameter(Parameters.DUEDATE));
 		Date completiondate = null;
-		int status = 0;
 
 		if(request.getParameter(Parameters.COMPDATE) != null) {
 			Date.valueOf(request.getParameter(Parameters.COMPDATE));
 		}
 
-		if(request.getParameter(Parameters.STATUS) != null) {
-			status = Integer.parseInt(request.getParameter(Parameters.STATUS));
-		}
+		int status = MyUtil.getChackBoxStatus(request.getParameter(Parameters.STATUS));
+
+		//ログ
+		Logger.getLogger(UpdateServlet.class.getName()).info("id : " + request.getParameter(Parameters.TODO_ID));
+		Logger.getLogger(UpdateServlet.class.getName()).info("title : " + request.getParameter(Parameters.TITLE));
+		Logger.getLogger(UpdateServlet.class.getName()).info("duedate : " + request.getParameter(Parameters.DUEDATE));
+		Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : " + request.getParameter(Parameters.COMPDATE));
+		Logger.getLogger(UpdateServlet.class.getName()).info("status : " + request.getParameter(Parameters.STATUS));
 
 		//Todo更新
 		UpdateDAO dao = new UpdateDAO();
