@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,6 +58,14 @@ public class InsertServlet extends HttpServlet {
 		int status = MyUtil.getChackBoxStatus(request.getParameter(Parameters.STATUS));
 
 		TodoInsertDAO dao = new TodoInsertDAO();
+
+		//ログ
+		Logger.getLogger(UpdateServlet.class.getName()).info("id : " + request.getParameter(Parameters.TODO_ID));
+		Logger.getLogger(UpdateServlet.class.getName()).info("title : " + request.getParameter(Parameters.TITLE));
+		Logger.getLogger(UpdateServlet.class.getName()).info("duedate : " + request.getParameter(Parameters.DUEDATE));
+		Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : " + request.getParameter(Parameters.COMPDATE));
+		Logger.getLogger(UpdateServlet.class.getName()).info("status : " + request.getParameter(Parameters.STATUS));
+
 		try {
 			dao.insertTodo(title, duedate, completiondate, memoText, status);
 		} catch(SQLException | ClassNotFoundException e) {

@@ -25,7 +25,7 @@ Todo todo = (Todo) request.getAttribute("todo");
                return true;
             }
         }
-
+		//戻るボタン押下でダイアログ表示
         function confirmGoBack() {
         	var confirmBack = confirm("The changes will be discarded. Do you want to proceed with the return?");
         	if (confirmBack) {
@@ -33,6 +33,17 @@ Todo todo = (Todo) request.getAttribute("todo");
                 history.back();
             }
         }
+		//チェックボックスの状態を判定
+		function handleCheckboxChange(checkbox) {
+			var datetimeInput = document.getElementById('datetimeInput');
+
+			if(checkbox.checked) {
+				var currentDatetime = new Date().toISOString().split('T')[0];
+				datetimeInput.value = currentDatetime;
+			} else {
+				datetimeInput.value = '';
+			}
+		}
 </script>
 </head>
 <body>
@@ -42,8 +53,13 @@ Todo todo = (Todo) request.getAttribute("todo");
 	<input type="text" id="inputTitle" name="<%=Parameters.TITLE %>" value="<%=todo.getTitle() %>"><br>
 	<label>Due Date : </label>
 	<input type="date" id= "inputDate" name="<%=Parameters.DUEDATE %>" value="<%=todo.getDuedate() %>"><br>
+	<label>Comp. Date : </label>
+	<input type="date" id ="datetimeInput" name="<%=Parameters.COMPDATE %>" value="<%=todo.getCompletiondate()%>"><br>
 	<label>Done : </label>
-	<input type="checkbox" name="<%=Parameters.STATUS %>" value="on" <%= (status == 1) ? "checked" : "" %>>
+	<input type="checkbox"
+		onchange="handleCheckboxChange(this)"
+		name="<%=Parameters.STATUS %>"
+		value="on" <%= (status == 1) ? "checked" : "" %>>
 	<br>
 	<input type="hidden" name="<%=Parameters.TODO_ID %>" value="<%=todo.getId() %>">
 	<input type="submit" value="Submit">

@@ -58,6 +58,21 @@ String msg = (String) request.getAttribute("msg");
                 }
             }
         }
+		//checkbox変更時の処理
+		function sendCheckboxState(checkboxId, id) {
+			var checkbox = document.getElementById(checkboxId);
+			var isChecked = checkbox.checked;
+
+			var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'update-servlet', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                }
+            };
+            xhr.send('isChecked=' + isChecked + '&id=' + id);
+		}
       //最初の画面読み込み時に実行
         window.onload = function() {
             filterTodos('all');
@@ -79,14 +94,14 @@ String msg = (String) request.getAttribute("msg");
 	<form action="insert-servlet" method="post" onsubmit="return validateForm()">
 		<label>Task:</label><input type="text" id="inputTitle" name="<%=Parameters.TITLE %>"><br>
 		<label>Due Date:</label><input type="date" id= "inputDate" name="<%=Parameters.DUEDATE %>"><br>
-		<input type="submit"  id = "newTask" value="add"><br>
+		<input type="submit"  id = "newTask" value="add"><br><br>
 	</form>
 	<% if (msg != null) { %>
 		<p><%= msg %></p>
 	<% } %>
     <button onclick="filterTodos('all')">Show All</button>
-	<button onclick="filterTodos('0')">Show Not Done</button>
-    <button onclick="filterTodos('1')">Show Done</button>
+	<button onclick="filterTodos('0')">Show Pending Done</button>
+    <button onclick="filterTodos('1')">Show Done Task</button>
 	<table border="1">
 	<thead>
         <tr>
@@ -103,8 +118,15 @@ String msg = (String) request.getAttribute("msg");
             <tr class="todo" data-status="<%=todo.getStatus() %>">
                 <td width="500"><%= todo.getTitle() %></td>
                 <td class="date-cell padding"><%= todo.getDuedate() %></td>
-                <td class="padding"><%= todo.getCompletiondate() %></td>
-                <td class="padding"><%= todo.getStatus() %></td>
+                <td class="padding"><%= (todo.getCompletiondate() != null) ? todo.getCompletiondate() : "-" %></td>
+                <td class="padding">
+                	<input type="checkbox"
+                		name="statusCheckbox"
+                		id="checkbox<%= todo.getId() %>"
+                		onchange="sendCheckboxState('checkbox<%= todo.getId() %>', todo.getId())"
+                		value="on" <%= (todo.getStatus() == 1) ? "checked" : "" %>
+                	>
+                </td>
                 <td class="center-align padding"><a href="update-servlet?<%= Parameters.TODO_ID %>=<%= todo.getId() %>">Edit</a></td>
                 <td class="center-align padding"><a href="#" onclick="confirmDelete('<%= Parameters.TODO_ID %>' , '<%= todo.getId() %>')">Delete</a></td>
             </tr>

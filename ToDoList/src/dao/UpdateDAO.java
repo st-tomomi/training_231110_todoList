@@ -67,4 +67,20 @@ public class UpdateDAO {
 		return todo;
 
 	}
+
+	public int updateTodo(int id, int status)
+		throws SQLException, ClassNotFoundException {
+		int rowsUpdated = 0;
+
+		String sql = "UPDATE todo SET status = ? WHERE id = ?";
+
+		try(Connection con = DBConnection.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setInt(1, status);
+			pstmt.setInt(2, id);
+			rowsUpdated = pstmt.executeUpdate();
+		}
+
+		return rowsUpdated;
+	}
 }

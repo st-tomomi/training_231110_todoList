@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mysql.cj.util.StringUtils;
+
 import constant.Parameters;
 import dao.UpdateDAO;
 import model.Todo;
@@ -63,19 +65,41 @@ public class UpdateServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter(Parameters.TODO_ID));
 		String title = request.getParameter(Parameters.TITLE);
 		Date duedate = Date.valueOf(request.getParameter(Parameters.DUEDATE));
+		String completiondateString = request.getParameter(Parameters.COMPDATE);
 		Date completiondate = null;
+		int status = MyUtil.getChackBoxStatus(request.getParameter(Parameters.STATUS));
 
-		if(request.getParameter(Parameters.COMPDATE) != null) {
-			Date.valueOf(request.getParameter(Parameters.COMPDATE));
+		//【至急】nullチェックして
+		Logger.getLogger(UpdateServlet.class.getName()).info("isChecked : " + request.getParameter("isChecked"));
+		if (!StringUtils.isNullOrEmpty(request.getParameter("isChecked"))) {
+			status = 1;
+			UpdateDAO dao = new UpdateDAO();
+			try {
+				dao.updateTodo(id, status);
+			} catch(SQLException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			response.sendRedirect("list-servlet");
 		}
 
-		int status = MyUtil.getChackBoxStatus(request.getParameter(Parameters.STATUS));
+		//不具合調査用
+		Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : " + completiondateString);
+		if(completiondateString != null && !completiondateString.isBlank()) {
+			completiondate = Date.valueOf(request.getParameter(Parameters.COMPDATE));
+		}
 
 		//ログ
 		Logger.getLogger(UpdateServlet.class.getName()).info("id : " + request.getParameter(Parameters.TODO_ID));
 		Logger.getLogger(UpdateServlet.class.getName()).info("title : " + request.getParameter(Parameters.TITLE));
 		Logger.getLogger(UpdateServlet.class.getName()).info("duedate : " + request.getParameter(Parameters.DUEDATE));
-		Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : " + request.getParameter(Parameters.COMPDATE));
+
+		if (completiondateString == null) {
+			Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : null");
+		} else if (completiondateString.isBlank()) {
+			Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : blank or white space");
+		} else {
+			Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : " + completiondateString);
+		}
 		Logger.getLogger(UpdateServlet.class.getName()).info("status : " + request.getParameter(Parameters.STATUS));
 
 		//Todo更新
