@@ -101,9 +101,11 @@ String msg = (String) request.getAttribute("msg");
 	<% if (msg != null) { %>
 		<p><%= msg %></p>
 	<% } %>
-    <button onclick="filterTodos('all')">Show All</button>
-	<button onclick="filterTodos('0')">Show Pending Done</button>
-    <button onclick="filterTodos('1')">Show Done Task</button>
+	<form>
+		<label><input type="radio" name="filter" value="all" onchange="filterTodos('all')" checked> Show All</label>
+		<label><input type="radio" name="filter" value="0" onchange="filterTodos('0')"> Show Pending Done</label>
+    	<label><input type="radio" name="filter" value="1" onchange="filterTodos('1')"> Show Done Task</label>
+	</form>
 	<table border="1">
 	<thead>
         <tr>
