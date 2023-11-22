@@ -64,16 +64,24 @@ public class UpdateServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		int id = Integer.parseInt(request.getParameter(Parameters.TODO_ID));
 		String isChecked = request.getParameter("isChecked");
+		String completiondateString = request.getParameter(Parameters.COMPDATE);
+		Date completiondate = null;
 		int status = 0;
 
 		Logger.getLogger(UpdateServlet.class.getName()).info("id : " + request.getParameter(Parameters.TODO_ID));
 		Logger.getLogger(UpdateServlet.class.getName()).info("isChecked : " + request.getParameter("isChecked"));
 
+		//不具合調査用
+		Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : " + completiondateString);
+		if(completiondateString != null && !completiondateString.isBlank()) {
+			completiondate = Date.valueOf(request.getParameter(Parameters.COMPDATE));
+		}
+
 		if (!StringUtils.isNullOrEmpty(isChecked)) {
 			status = MyUtil.getChackBoxStatus(isChecked);
 			UpdateDAO dao = new UpdateDAO();
 			try {
-				dao.updateTodo(id, status);
+				dao.updateTodo(id, completiondate, status);
 			} catch(SQLException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -82,15 +90,7 @@ public class UpdateServlet extends HttpServlet {
 
 		String title = request.getParameter(Parameters.TITLE);
 		Date duedate = Date.valueOf(request.getParameter(Parameters.DUEDATE));
-		String completiondateString = request.getParameter(Parameters.COMPDATE);
-		Date completiondate = null;
 		status = MyUtil.getChackBoxStatus(request.getParameter(Parameters.STATUS));
-
-		//不具合調査用
-		Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : " + completiondateString);
-		if(completiondateString != null && !completiondateString.isBlank()) {
-			completiondate = Date.valueOf(request.getParameter(Parameters.COMPDATE));
-		}
 
 		//ログ
 		Logger.getLogger(UpdateServlet.class.getName()).info("id : " + request.getParameter(Parameters.TODO_ID));

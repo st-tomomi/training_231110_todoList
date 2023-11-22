@@ -68,16 +68,17 @@ public class UpdateDAO {
 
 	}
 
-	public int updateTodo(int id, int status)
+	public int updateTodo(int id, Date compDate, int status)
 		throws SQLException, ClassNotFoundException {
 		int rowsUpdated = 0;
 
-		String sql = "UPDATE todo SET status = ? WHERE id = ?";
+		String sql = "UPDATE todo SET status = ?, completiondate = ? WHERE id = ?";
 
 		try(Connection con = DBConnection.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql)) {
 			pstmt.setInt(1, status);
-			pstmt.setInt(2, id);
+			pstmt.setDate(2, compDate);
+			pstmt.setInt(3, id);
 			rowsUpdated = pstmt.executeUpdate();
 		}
 

@@ -62,6 +62,7 @@ String msg = (String) request.getAttribute("msg");
 		function sendCheckboxState(id) {
 			var checkbox = document.getElementById('checkbox' + id);
 			var status = (checkbox.checked) ? "1" : "0";
+			var compdate = (checkbox.checked) ? new Date().toISOString().split('T')[0] : '';
 
 			var xhr = new XMLHttpRequest();
             xhr.open('POST', 'update-servlet', true);
@@ -70,8 +71,9 @@ String msg = (String) request.getAttribute("msg");
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     console.log(xhr.responseText);
                 }
+                location.reload();
             };
-            xhr.send('isChecked=' + status + '&id=' + id);
+            xhr.send('isChecked=' + status + '&id=' + id + '&completiondate=' + compdate);
 		}
       //最初の画面読み込み時に実行
         window.onload = function() {
