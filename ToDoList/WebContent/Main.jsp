@@ -32,8 +32,25 @@ String msg = (String) request.getAttribute("msg");
         function confirmDelete(paramName, paramValue) {
         	var confirmDelete = confirm("Delete this task? You cannot undo this action.");
         	if (confirmDelete) {
-        		window.location.href = "delete-servlet?" + paramName + "=" +paramValue;
-        	}
+        		fetch("delete-servlet?" + paramName + "=" + paramValue, {
+        			method: 'DELETE',
+        		})
+        		.then(response => {
+        			if(!response.ok) {
+        				throw new Error('Network response was not ok');
+        			}
+        			return response.json();
+        		})
+        		.then(data => {
+        			console.log(data);
+        		})
+        		.catch(error => {
+        			console.error('There was a problem with the fetch operation:', error);
+        		})
+        		.finally(() => {
+        			location.reload();
+        		});
+			}
         }
 		//実行状況(status=0, 1)でフィルター
 		//期日(DueDate)を過ぎていた場合赤文字にする
@@ -64,16 +81,26 @@ String msg = (String) request.getAttribute("msg");
 			var status = (checkbox.checked) ? "1" : "0";
 			var compdate = (checkbox.checked) ? new Date().toISOString().split('T')[0] : '';
 
-			var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'update-servlet', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log(xhr.responseText);
-                }
-                location.reload();
-            };
-            xhr.send('isChecked=' + status + '&id=' + id + '&completiondate=' + compdate);
+			fetch("update-servlet", {
+		        method: 'POST',
+		        headers: {
+		            'Content-Type': 'application/x-www-form-urlencoded',
+		            'X-HTTP-Method-Override': 'PUT'
+		        },
+		        body: 'isChecked=' + status + '&id=' + id + '&completiondate=' + compdate
+		    })
+		    .then(response => {
+		        if (!response.ok) {
+		            throw new Error('Network response was not ok');
+		        }
+		        console.log(response.text());
+		    })
+		    .catch(error => {
+		        console.error('There was a problem with the fetch operation:', error);
+		    })
+			.finally(() => {
+    			location.reload();
+    		});
 		}
       //最初の画面読み込み時に実行
         window.onload = function() {

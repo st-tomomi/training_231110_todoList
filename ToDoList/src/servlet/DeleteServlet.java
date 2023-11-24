@@ -27,6 +27,33 @@ public class DeleteServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    protected void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if ("DELETE".equals(request.getMethod())) {
+            doDELETE(request, response);
+        } else {
+            super.service(request, response);
+        }
+    }
+
+    protected void doDELETE(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // DELETE メソッドに対する処理をここに書く
+        int id = Integer.parseInt(request.getParameter(Parameters.TODO_ID));
+
+        DeleteDAO dao = new DeleteDAO();
+        try {
+            dao.deleteTodo(id);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to delete todo.");
+            return;
+        }
+
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+
 	/**
 	 * リクエストパラメータの"id"を条件にレコードを削除
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

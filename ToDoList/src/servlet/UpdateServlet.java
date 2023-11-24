@@ -62,6 +62,69 @@ public class UpdateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
+		if ("put".equalsIgnoreCase(request.getParameter("_method"))) {
+			doPut(request, response);
+			Logger.getLogger(UpdateServlet.class.getName()).info("doPutが実行されました。");
+			return;
+		}
+		Logger.getLogger(UpdateServlet.class.getName()).info("doPostが実行されました。");
+
+		int id = Integer.parseInt(request.getParameter(Parameters.TODO_ID));
+		String isChecked = request.getParameter("isChecked");
+		String completiondateString = request.getParameter(Parameters.COMPDATE);
+		Date completiondate = null;
+		int status = 0;
+
+		Logger.getLogger(UpdateServlet.class.getName()).info("id : " + request.getParameter(Parameters.TODO_ID));
+		Logger.getLogger(UpdateServlet.class.getName()).info("isChecked : " + request.getParameter("isChecked"));
+
+		if(completiondateString != null && !completiondateString.isBlank()) {
+			completiondate = Date.valueOf(request.getParameter(Parameters.COMPDATE));
+		}
+
+		if (!StringUtils.isNullOrEmpty(isChecked)) {
+			status = MyUtil.getChackBoxStatus(isChecked);
+			UpdateDAO dao = new UpdateDAO();
+			try {
+				dao.updateTodo(id, completiondate, status);
+			} catch(SQLException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			response.sendRedirect("list-servlet");
+		}
+
+		String title = request.getParameter(Parameters.TITLE);
+		Date duedate = Date.valueOf(request.getParameter(Parameters.DUEDATE));
+		status = MyUtil.getChackBoxStatus(request.getParameter(Parameters.STATUS));
+
+		//ログ
+		Logger.getLogger(UpdateServlet.class.getName()).info("id : " + request.getParameter(Parameters.TODO_ID));
+		Logger.getLogger(UpdateServlet.class.getName()).info("title : " + request.getParameter(Parameters.TITLE));
+		Logger.getLogger(UpdateServlet.class.getName()).info("duedate : " + request.getParameter(Parameters.DUEDATE));
+
+		if (completiondateString == null) {
+			Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : null");
+		} else if (completiondateString.isBlank()) {
+			Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : blank or white space");
+		} else {
+			Logger.getLogger(UpdateServlet.class.getName()).info("completiondate : " + completiondateString);
+		}
+		Logger.getLogger(UpdateServlet.class.getName()).info("status : " + request.getParameter(Parameters.STATUS));
+
+		//Todo更新
+		UpdateDAO dao = new UpdateDAO();
+		try {
+			dao.updateTodo(id, title, duedate, completiondate, status);
+		} catch(SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		response.sendRedirect("list-servlet");
+
+	}
+	@Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
 		int id = Integer.parseInt(request.getParameter(Parameters.TODO_ID));
 		String isChecked = request.getParameter("isChecked");
 		String completiondateString = request.getParameter(Parameters.COMPDATE);
@@ -114,7 +177,6 @@ public class UpdateServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		response.sendRedirect("list-servlet");
-
-	}
+    }
 
 }

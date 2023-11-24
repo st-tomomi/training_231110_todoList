@@ -47,8 +47,9 @@ Todo todo = (Todo) request.getAttribute("todo");
 </script>
 </head>
 <body>
-<form action="update-servlet" method="post" onsubmit="return validateForm()">
+<form action="update-servlet" method="post" onsubmit="return validateForm()" accept-charset="UTF-8">
 	<% int status = todo.getStatus(); %>
+	<input type="hidden" name="_method" value="put">
 	<label>Task : </label>
 	<input type="text" id="inputTitle" name="<%=Parameters.TITLE %>" value="<%=todo.getTitle() %>"><br>
 	<label>Due Date : </label>
